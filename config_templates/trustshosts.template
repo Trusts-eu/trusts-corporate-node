@@ -1,0 +1,19 @@
+127.0.0.1	localhost
+::1		localhost ip6-localhost ip6-loopback
+ff02::1		ip6-allnodes
+ff02::2		ip6-allrouters
+
+#10.132.0.4 trusts-odm-2.c.trustseu.internal trusts-odm-2  # Added by Google
+169.254.169.254 metadata.google.internal  # Added by Google
+176.223.130.213  relational-core
+34.78.114.247   reltest
+#34.78.114.247    provider-core  # trusts-odm-2
+35.205.82.213    alpha-core #trusts-development
+#35.205.82.213    consumer-core #trusts-development
+104.199.78.52     central-core #central trusts-odm-1
+104.199.78.52     broker-core #central trusts-odm-1
+
+#10.132.0.2    myalias
+
+### Change this to match the VM IP and the LOCAL_NODE_NAME. If deploying locally, then this should point the the Docker Host Gateway
+$NODE_IP_ADDRESS  $LOCAL_NODE_NAME

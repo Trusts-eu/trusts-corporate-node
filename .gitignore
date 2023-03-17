@@ -1,0 +1,9 @@
+node/.env
+node/config.json
+node/appsettings.json
+trustshosts
+/node/recomm/solr/interactions/data
+/node/recomm/solr/feedbacks/data
+/node/recomm/solr/users/data
+/node/recomm/solr/items/data
+*.p12

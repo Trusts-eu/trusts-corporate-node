@@ -1,0 +1,53 @@
+!!at.knowcenter.sc.recomm.common.profiles.ItemHistoryCbProfile
+evaluation: false
+evaluationEntitiesForgetPercentage: 20
+resultStrategy: roundRobinSkipItem
+recommType: items
+coreNames:
+  item: items
+fetchUserHistoryProperties:
+  fetch: true
+  itemCoreProperties:
+    interactionFields:
+      fields:
+      - name: users_view
+      - name: users_download
+      - name: users_accept_contract
+      - name: users_publish
+  filterClauses:
+    clauses:
+    - connector: AND
+      filters:
+      - field: type
+        values:
+        - dataset
+    connector: AND
+    minus: false
+similarItemsProperties:
+  filterUserItems: false
+  filterClauses:
+    clauses:
+    - connector: AND
+      filters:
+      - field: type
+        values:
+        - dataset
+      - field: invalid
+        values: 
+        - true
+        minus: true        
+    connector: AND
+    minus: false
+mltProperties:
+  maxResultsPerItem: 10
+  maxqt: 30
+  mindf: 2
+  mintf: 1
+  minwl: 4
+  queries:
+  - boost: 1.0
+    field: title
+  - boost: 1.0
+    field: description
+  - boost: 1.0
+    field: themes

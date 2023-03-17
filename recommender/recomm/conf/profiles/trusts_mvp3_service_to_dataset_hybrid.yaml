@@ -1,0 +1,8 @@
+!!at.knowcenter.sc.recomm.common.profiles.HybridRoundRobinWeightedSumProfile
+recommType: items
+profileNames:
+  - trusts_mvp3_service_to_dataset_cb
+  - trusts_mvp3_service_to_dataset_mp
+profileWeights:
+- 3
+- 1

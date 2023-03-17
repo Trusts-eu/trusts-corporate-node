@@ -1,0 +1,34 @@
+!!at.knowcenter.sc.recomm.common.profiles.ItemMpProfile
+evaluation: false
+evaluationEntitiesForgetPercentage: 20
+recommType: items
+coreNames:
+  item: items
+fetchUserHistoryProperties:
+  fetch: false
+similarItemsProperties:
+  filterUserItems: false
+  filterClauses:
+    clauses:
+    - connector: AND
+      filters:
+      - field: type
+        values:
+        - application
+      - field: invalid
+        values: 
+        - true
+        minus: true        
+    connector: AND
+    minus: false
+  interactionFields:
+    fields:
+    - name: users_view
+    - name: users_download
+    - name: users_accept_contract
+    - name: users_publish
+countFields:
+  - users_view_count
+  - users_download_count
+  - users_accept_contract_count
+  - users_publish_count

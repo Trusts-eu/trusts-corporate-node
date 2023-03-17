@@ -1,0 +1,29 @@
+!!at.knowcenter.sc.recomm.common.profiles.ItemCbProfile
+recommType: items
+coreNames:
+  item: items
+fetchUserHistoryProperties:
+  fetch: false
+mltProperties:
+  maxqt: 25
+  mindf: 1
+  mintf: 1
+  minwl: 3
+  queries:
+  - boost: 1.0
+    field: title
+  - boost: 1.0
+    field: description
+  - boost: 1.0
+    field: themes
+  maxResultsPerItem: 10
+similarItemsProperties:
+  filterUserItems: false
+  flexFilters:
+    fieldFilters:
+    - fieldName: type
+      fieldValue: dataset
+    - fieldName: invalid
+      fieldValue: true
+      minus: true        
+  usersToIgnore: []

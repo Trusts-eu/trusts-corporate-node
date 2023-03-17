@@ -1,0 +1,49 @@
+!!at.knowcenter.sc.recomm.common.profiles.InteractionCfProfile
+evaluation: false
+evaluationEntitiesForgetPercentage: 20
+recommType: items
+coreNames:
+  item: items
+fetchUserHistoryProperties:
+  fetch: true
+  itemCoreProperties:
+    interactionFields:
+      fields:
+      - name: users_view
+      - name: users_download
+      - name: users_accept_contract
+      - name: users_publish
+  filterClauses:
+    clauses:
+    - connector: AND
+      filters:
+      - field: type
+        values:
+        - service
+    connector: AND
+    minus: false   
+similarItemsProperties:
+  filterUserItems: false
+  filterClauses:
+    clauses:
+    - connector: AND
+      filters:
+      - field: type
+        values:
+        - service
+      - field: invalid
+        values: 
+        - true
+        minus: true        
+    connector: AND
+    minus: false
+  interactionFields:
+    fields:
+    - name: users_view
+    - name: users_download
+    - name: users_accept_contract
+    - name: users_publish
+similarUsersProperties:
+  similarUserCount: 40
+  topKSimilarUserCount: 40
+  minItemOverlap: 1

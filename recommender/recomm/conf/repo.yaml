@@ -1,0 +1,14 @@
+server:
+  applicationConnectors:
+  - type: http
+    port: 8004
+   
+  adminConnectors:
+  - type: http
+    port: 8005
+
+logging:
+  level: INFO
+
+swagger:
+  resourcePackage: at.knowcenter.sc.recomm.repo
