@@ -6,7 +6,7 @@
     {
       "preset_name": "package_slug",
       "values": {
-        "validators": "not_empty unicode name_validator package_name_validator",
+        "validators": "not_empty unicode_safe name_validator package_name_validator",
         "form_snippet": "slug.html"
       }
     },

@@ -1,13 +1,9 @@
 version: '3.5'
 
 volumes:
-  ckan_config:
-  ckan_home:
   ckan_storage:
   pg_data:
   solr_data:
-  dsc_storage: {}
-  recomm-solr-data:
   dataspaceconnector-data:
 
 services:
@@ -31,75 +27,69 @@ services:
 
 
   local-ckan:
-    image: trusts/ckan:latest
+    image: trusts/ckan:2.10.0-trusts
+    container_name: ${CKAN_CONTAINER_NAME}
+    env_file:
+      - .env
     links:
       - db
       - solr
       - redis
       - dsc
     depends_on:
-      - db
-      - dsc
+      db:
+        condition: service_healthy
+      solr:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     ports:
-      - "0.0.0.0:5000:5000"
-    environment:
-      # Defaults work with linked containers, change to use own Postgres, SolR, Redis or Datapusher
-      - CKAN_SQLALCHEMY_URL=postgresql://ckan:${POSTGRES_PASSWORD}@db/ckan
-      - CKAN_DATASTORE_WRITE_URL=postgresql://ckan:${POSTGRES_PASSWORD}@db/datastore
-      - CKAN_DATASTORE_READ_URL=postgresql://datastore_ro:${DATASTORE_READONLY_PASSWORD}@db/datastore
-      - CKAN_SOLR_URL=http://solr:8983/solr/ckan
-      - CKAN_REDIS_URL=redis://redis:6379/1
-      - CKAN_DATAPUSHER_URL=http://datapusher:8800
-      - CKAN_SITE_URL=${CKAN_SITE_URL}
-      - CKAN_SITE_ID=${CKAN_SITE_ID}
-      - CKAN_MAX_UPLOAD_SIZE_MB=${CKAN_MAX_UPLOAD_SIZE_MB}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - DS_RO_PASS=${DATASTORE_READONLY_PASSWORD}
-      - CKAN_SITE_TITLE=${CKAN_SITE_TITLE}
-      - LOCAL_DATASPACE_CONNECTOR_URL=http://${LOCAL_NODE_NAME}
-      - LOCAL_DATASPACE_CONNECTOR_PORT=8282
-      - LOCAL_DATASPACE_CONNECTOR_USERNAME=${LOCAL_DATASPACE_CONNECTOR_USERNAME}
-      - LOCAL_DATASPACE_CONNECTOR_PASSWORD=${LOCAL_DATASPACE_CONNECTOR_PASSWORD}
-      - CKAN_EXTRA_PLUGIN_LIST=,theme,vocabularies
-      - TRUSTS_CENTRAL_BROKER_URL=${BROKER_URL}
-      - LOCAL_NODE_NAME=${LOCAL_NODE_NAME}
-      - CKAN_AUTH_CREATE_USER_VIA_WEB=${CKAN_AUTH_CREATE_USER_VIA_WEB}
-      - SCHEMING_DATASET_SCHEMAS=file:///schemas/dataset.yml file:///schemas/service.yml file:///schemas/application.yml
-      - LICENSES_GROUP_URL=file:///etc/ckan/licenses.json
+      - "0.0.0.0:${CKAN_PORT_HOST}:${CKAN_PORT}"
     volumes:
       - ckan_storage:/var/lib/ckan
-      - ./../trustshosts:/etc/hosts
       - ./schemas:/schemas
       - ./licenses.json:/etc/ckan/licenses.json
-      #- ${DEV_FOLDER_FOR_CKAN_EXTENSION}:/usr/local/lib/python3.7/site-packages/ckanext/ids
+      - ./../trustshosts:/etc/hosts
+    restart: unless-stopped
+    extra_hosts:
+      - "swc-core:172.21.0.1"
+    healthcheck:
+      test: [ "CMD", "wget", "-qO", "/dev/null", "http://localhost:5000" ]
     networks:
       - internal-net
 
   db:
-    image: trusts/ckan_db:mvp1
+    image: trusts/ckan-db:2.9-p12
+    container_name: ${POSTGRESQL_CONTAINER_NAME}
     environment:
-      - DS_RO_PASS=${DATASTORE_READONLY_PASSWORD}
+      - DATASTORE_READONLY_PASSWORD=${DATASTORE_READONLY_PASSWORD}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - PGDATA=/var/lib/postgresql/data/db
     volumes:
       - pg_data:/var/lib/postgresql/data
+    restart: unless-stopped
     healthcheck:
       test: [ "CMD", "pg_isready", "-U", "ckan" ]
-    ports:
-     - 5432:5432
     networks:
       - internal-net
 
   solr:
-    image:  trusts/ckan_solr:mvp1
+    container_name: ${SOLR_CONTAINER_NAME}
+    image: trusts/ckan-solr:2.9-solr8
     volumes:
-      - solr_data:/opt/solr/server/solr/ckan/data
+      - solr_data:/var/solr
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "wget", "-qO", "/dev/null", "http://localhost:8983/solr/" ]
     networks:
       - internal-net
-    #ports:
-    # - "8983:8983"
 
   redis:
-    image: redis:latest
+    container_name: ${REDIS_CONTAINER_NAME}
+    image: redis:${REDIS_VERSION}
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "-e", "QUIT"]
     networks:
       - internal-net
 
@@ -119,7 +109,6 @@ services:
       - ./../trustshosts:/etc/hosts
       - ./idscert/:/conf/
       - ./config.json:/config/config.json
-      # - dsc_storage:/home/nonroot
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/${LOCAL_DSC_POSTGRES_DB}
       - SPRING_DATASOURCE_USERNAME=${LOCAL_DSC_POSTGRES_USERNAME}
@@ -147,8 +136,8 @@ services:
 
 networks:
   ids-wide:
-    external:
-      name: ids-wide
+    name: ids-wide
+    external: true
 
   internal-net:
     driver: bridge
