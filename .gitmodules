@@ -1,0 +1,6 @@
+[submodule "node/src/ckanext-ids"]
+	path = node/src/ckanext-ids
+	url = git@github.com:Trusts-eu/ckanext-ids.git
+[submodule "node/src/ckanext-vocabularies"]
+	path = node/src/ckanext-vocabularies
+	url = git@github.com:Trusts-eu/ckanext-vocabularies.git
