@@ -43,7 +43,7 @@ services:
 
 
   local-ckan:
-    image: trusts/ckan:2.10.0-trusts
+    image: trusts/ckan:2.10.0-trusts-r2
     # please uncomment the following lines and comment above line
     # if you want to use the local build instead of the upstream
     #build:
