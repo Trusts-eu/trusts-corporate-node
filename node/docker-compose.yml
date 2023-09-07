@@ -13,8 +13,6 @@ services:
     container_name: postgres
     ports:
       - 8181:5432
-    # env_file:
-    #   - ./postgres/postgres.env
     environment:
       - POSTGRES_USER=${LOCAL_DSC_POSTGRES_USERNAME}
       - POSTGRES_PASSWORD=${LOCAL_DSC_POSTGRES_PASSWORD}
@@ -44,13 +42,11 @@ services:
 
   local-ckan:
     image: trusts/ckan:2.10.0-trusts-r2
-    # please uncomment the following lines and comment above line
-    # if you want to use the local build instead of the upstream
-    #build:
-    #  context: ckan/
-    #  dockerfile: Dockerfile
-    #  args:
-    #    - TZ=${TZ}
+    build:
+      context: ckan/
+      dockerfile: Dockerfile
+      args:
+        - TZ=${TZ}
     container_name: ${CKAN_CONTAINER_NAME}
     env_file:
       - .env
@@ -142,11 +138,10 @@ services:
       - SERVER_SSL_ENABLED=false
       - CONFIGURATION_PATH=/config/config.json
       - BOOTSTRAP_ENABLED=false
-      - DAPS_KEY_URL=https://demos-10.poolparty.biz/auth/jwks.json
+      - DAPS_KEY_URL=${DAPS_URL}/auth/jwks.json
       - DAPS_INCOMING_DAT_DEFAULT_WELLKNOWN=/jwks.json
       - SERVER_SSL_KEY-STORE=file:///conf/${LOCAL_NODE_NAME}.p12
-      - DAPS_URL=https://demos-10.poolparty.biz
-      - DAPS_TOKEN_URL=https://demos-10.poolparty.biz/auth/token
+      - DAPS_TOKEN_URL=${DAPS_URL}/auth/token
 
   note-service:
     container_name: note-service
