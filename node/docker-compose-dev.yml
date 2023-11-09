@@ -12,7 +12,7 @@ services:
     image: postgres:13
     container_name: postgres
     ports:
-      - 8181:5432
+      - 5432
     environment:
       - POSTGRES_USER=${LOCAL_DSC_POSTGRES_USERNAME}
       - POSTGRES_PASSWORD=${LOCAL_DSC_POSTGRES_PASSWORD}
