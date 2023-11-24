@@ -56,12 +56,11 @@ services:
     restart: unless-stopped
     environment:
       - CKAN__PLUGINS=envvars image_view text_view trusts_dev
-    extra_hosts:
-      - "swc-core:172.21.0.1"
     healthcheck:
       test: [ "CMD", "wget", "-qO", "/dev/null", "http://localhost:5000" ]
     networks:
       - internal-net
+      - ids-wide
 
   db:
     image: trusts/ckan-db:2.9-p12

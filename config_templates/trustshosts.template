@@ -16,4 +16,5 @@ ff02::2		ip6-allrouters
 #10.132.0.2    myalias
 
 ### Change this to match the VM IP and the LOCAL_NODE_NAME. If deploying locally, then this should point the the Docker Host Gateway
+### for the DEV version, please use the gateway of the ids-wide network
 $NODE_IP_ADDRESS  $LOCAL_NODE_NAME

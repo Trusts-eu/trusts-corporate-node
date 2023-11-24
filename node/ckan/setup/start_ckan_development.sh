@@ -3,7 +3,6 @@
 # Install any local extensions in the src_extensions volume
 echo "Looking for local extensions to install..."
 echo "Extension dir contents:"
-ls -la $SRC_EXTENSIONS_DIR
 for i in $SRC_EXTENSIONS_DIR/*
 do
     if [ -d $i ];
@@ -63,6 +62,7 @@ fi
 # Update the plugins setting in the ini file with the values defined in the env var
 echo "Loading the following plugins: $CKAN__PLUGINS"
 ckan config-tool $CKAN_INI "ckan.plugins = $CKAN__PLUGINS"
+ckan config-tool $CKAN_INI "debug.remote.host.ip = $DEBUG_SERVER_HOST"
 
 # Update test-core.ini DB, SOLR & Redis settings
 echo "Loading test settings into test-core.ini"
