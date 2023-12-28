@@ -31,6 +31,7 @@ dataset_fields:
   - field_name: license_id
     label: License
     form_snippet: license.html
+    validators: ignore_missing
     help_text: License definitions and additional information can be found at http://opendefinition.org/
     display_property: https://w3id.org/idsa/core/standardLicense
 
