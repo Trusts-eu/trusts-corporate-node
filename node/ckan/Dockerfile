@@ -13,6 +13,6 @@ RUN if ! [ /usr/share/zoneinfo/${TZ} -ef /etc/localtime ]; then \
 RUN pip3 install -r /srv/app/src/ckan/dev-requirements.txt && \
     pip3 install -e "git+https://github.com/ckan/ckanext-scheming.git#egg=ckanext-scheming" "git+https://github.com/ckan/ckanext-basiccharts.git#egg=ckanext-basiccharts" future ckanext-visualize && \
     pip3 install cachetools rdflib==6.3.1 pyparsing==2.4.7 SPARQLWrapper==1.8.5 attrs flask_swagger_ui && \
-    pip3 install ckanext-ids==1.0.15 ckanext-vocabularies==0.0.6
+    pip3 install ckanext-ids==1.0.16 ckanext-vocabularies==0.0.6
 
 COPY docker-entrypoint.d/* /docker-entrypoint.d/

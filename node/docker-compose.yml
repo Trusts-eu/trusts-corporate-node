@@ -41,7 +41,7 @@ services:
 
 
   local-ckan:
-    image: trusts/ckan:2.10.0-trusts-r2
+    image: trusts/ckan:2.10.0-dev
     build:
       context: ckan/
       dockerfile: Dockerfile
