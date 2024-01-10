@@ -41,6 +41,8 @@ export LOCAL_NODE_NAME=<replace_this_with_your_local_node_name>            //exa
 export NODE_IP_ADDRESS=<replace_this_with_your_VM_IP>                      //example: export NODE_IP_ADDRESS=35.205.82.213
 export CKAN_URL=<replace_this_with_the_url_you_use_to_access_CKAN:PORT>    //example: export CKAN_URL=http://35.205.82.213:5000
 export LOCAL_NODE_CERT=<replace_this_with_name_dsc_certificate>            //example: export LOCAL_NODE_CERT=alpha-core.p12
+export DAPS_URL=<replace_this_with_the_daps_server_url_provided>           //example: export DAPS_URL=DAPS_URL=https://daps.tb.nicos-rd.com
+export BROKER_URL=<replace_this_with_the_broker_url_provided>              //example: export BROKER_URL=http://broker-core:8282/infrastructure
 ```
 
 then run the following commands
